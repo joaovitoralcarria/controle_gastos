@@ -39,56 +39,56 @@ git diff arquivo.py        # Diferenças de um arquivo específico
 
 🔄 COMANDOS PARA GERENCIAR MUDANÇAS:
 
-bashgit add arquivo.py         # Adiciona arquivo específico
-git add .                  # Adiciona todos os arquivos
-git add -A                 # Adiciona todos (incluindo deletados)
-git commit -m "mensagem"   # Commit com mensagem
-git commit -am "mensagem"  # Add + commit de arquivos já rastreados
+bashgit add arquivo.py         # Adiciona arquivo específico  
+git add .                  # Adiciona todos os arquivos  
+git add -A                 # Adiciona todos (incluindo deletados)  
+git commit -m "mensagem"   # Commit com mensagem  
+git commit -am "mensagem"  # Add + commit de arquivos já rastreados  
 
 ↩️ COMANDOS PARA DESFAZER COISAS:
 
-bashgit checkout -- arquivo.py    # Desfaz mudanças não commitadas
-git reset HEAD arquivo.py     # Remove arquivo do staging
-git reset --soft HEAD~1       # Desfaz último commit (mantém mudanças)
-git reset --hard HEAD~1       # Desfaz último commit (perde mudanças)
-git revert HEAD               # Cria commit que desfaz o anterior
+bashgit checkout -- arquivo.py    # Desfaz mudanças não commitadas  
+git reset HEAD arquivo.py     # Remove arquivo do staging  
+git reset --soft HEAD~1       # Desfaz último commit (mantém mudanças)  
+git reset --hard HEAD~1       # Desfaz último commit (perde mudanças)  
+git revert HEAD               # Cria commit que desfaz o anterior  
 
 🌐 COMANDOS PARA REPOSITÓRIO REMOTO:
 
-bashgit push                   # Envia commits para GitHub
-git pull                   # Baixa atualizações do GitHub
-git clone URL              # Clona repositório existente
-git remote -v              # Mostra repositórios remotos conectados
-git fetch                  # Baixa info sem fazer merge
+bashgit push                   # Envia commits para GitHub  
+git pull                   # Baixa atualizações do GitHub  
+git clone URL              # Clona repositório existente  
+git remote -v              # Mostra repositórios remotos conectados  
+git fetch                  # Baixa info sem fazer merge  
 
 🌳 COMANDOS PARA BRANCHES (ÚTIL QUANDO EVOLUIR):
 
-bashgit branch                 # Lista branches locais
-git branch nova-feature    # Cria nova branch
-git checkout main          # Muda para branch main
-git checkout -b nova-feature  # Cria e muda para nova branch
-git merge nova-feature     # Faz merge da branch
-git branch -d nova-feature # Deleta branch
+bashgit branch                 # Lista branches locais  
+git branch nova-feature    # Cria nova branch  
+git checkout main          # Muda para branch main  
+git checkout -b nova-feature  # Cria e muda para nova branch  
+git merge nova-feature     # Faz merge da branch  
+git branch -d nova-feature # Deleta branch  
 
 🔍 COMANDOS PARA INVESTIGAÇÃO:
 
-bashgit show                   # Mostra último commit detalhado
-git show HEAD~2            # Mostra commit de 2 versões atrás
-git blame arquivo.py       # Mostra quem fez cada linha
-git grep "texto"           # Busca texto nos arquivos
+bashgit show                   # Mostra último commit detalhado  
+git show HEAD~2            # Mostra commit de 2 versões atrás  
+git blame arquivo.py       # Mostra quem fez cada linha  
+git grep "texto"           # Busca texto nos arquivos  
 
 ⚠️ COMANDOS PARA SITUAÇÕES DE EMERGÊNCIA:
 
-bashgit stash                  # Salva mudanças temporariamente
-git stash pop              # Recupera mudanças salvas
-git clean -f               # Remove arquivos não rastreados
-git reflog                 # Histórico de TUDO (para recuperar coisas)
+bashgit stash                  # Salva mudanças temporariamente  
+git stash pop              # Recupera mudanças salvas  
+git clean -f               # Remove arquivos não rastreados  
+git reflog                 # Histórico de TUDO (para recuperar coisas)  
 
 🏷️ COMANDOS PARA VERSÕES QUANDO O PROJETO CRESCER:
 
-bashgit tag v1.0               # Cria tag para versão
-git tag                    # Lista tags
-git push --tags            # Envia tags para GitHub
+bashgit tag v1.0               # Cria tag para versão  
+git tag                    # Lista tags  
+git push --tags            # Envia tags para GitHub  
 
 📝 COMANDOS MAIS USADOS NO DIA A DIA:
 

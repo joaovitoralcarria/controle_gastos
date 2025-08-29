@@ -30,12 +30,12 @@ git push
 
 📊 COMANDOS PARA VER O ESTADO DO PROJETO:
 
-bashgit status                  # Estado atual (arquivos modificados, etc.)
-git log                     # Histórico de commits
-git log --oneline          # Histórico resumido em uma linha
-git log --graph            # Histórico visual com branches
-git diff                   # Mostra exatamente o que mudou
-git diff arquivo.py        # Diferenças de um arquivo específico
+bashgit status                  # Estado atual (arquivos modificados, etc.)  
+git log                     # Histórico de commits  
+git log --oneline          # Histórico resumido em uma linha  
+git log --graph            # Histórico visual com branches  
+git diff                   # Mostra exatamente o que mudou  
+git diff arquivo.py        # Diferenças de um arquivo específico  
 
 🔄 COMANDOS PARA GERENCIAR MUDANÇAS:
 

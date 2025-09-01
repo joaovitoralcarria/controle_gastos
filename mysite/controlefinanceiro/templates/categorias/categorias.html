@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Button trigger modal -->
+<div class="d-flex gap-3 mb-3">
+    <button type="button" class="btn btn-success ms-5 mt-5" data-bs-toggle="modal" data-bs-target="#btn_cadastro_grupos">
+        Cadastro Grupos
+    </button>
+    <button type="button" class="btn btn-success ms-5 mt-5" data-bs-toggle="modal" data-bs-target="#btn_cadastro_grupos">
+        Cadastro Categorias
+    </button>
+    <button type="button" class="btn btn-success ms-5 mt-5" data-bs-toggle="modal" data-bs-target="#btn_cadastro_grupos">
+        Cadastro Descrições
+    </button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="btn_cadastro_grupos" tabindex="-1" aria-labelledby="BotaoCadastroGrupos" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-7" id="titulo_cadastro_grupos">Cadastro de Grupos</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Container para alertas -->
+        <div id="alert-container"></div>
+        
+        <form id="criacao_novo_grupo">
+            <div class="mb-3">
+                <label for="tipoTransacao" class="form-label">Tipo de Transação</label>
+                <select class="form-select" id="tipoTransacao" name="tipoTransacao" required>
+                    <option value="" disabled selected>Selecione uma Opção</option>
+                    <option value="receita">Receita</option>
+                    <option value="despesa">Despesa</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="nomeGrupo" class="form-label">Grupo:</label>
+                <input type="text" class="form-control" id="nomeGrupo" name="nomeGrupo" required>
+            </div>
+            <div class="mb-3">
+                <label for="nomeCategoria" class="form-label">Categoria:</label>
+                <input type="text" class="form-control" id="nomeCategoria" name="nomeCategoria" required>
+            </div>
+            <div class="mb-3">
+                <label for="nomeDescricao" class="form-label">Descrição:</label>
+                <input type="text" class="form-control" id="nomeDescricao" name="nomeDescricao">
+            </div>
+            
+            <!-- BOTÕES MOVIDOS PARA DENTRO DO FORM -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" id="btn-criar-grupo">Criar Grupo</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    document.getElementById("criacao_novo_grupo").addEventListener('submit', async function(e) {
+        e.preventDefault();
+        console.log('Formulário submetido!'); // Debug
+
+        const formData = new FormData(this);
+        const dados = {};
+
+        for (let [key, value] of formData.entries()) {
+            dados[key] = value;
+        }
+        
+        console.log('Dados coletados:', dados); // Debug
+
+        // CORRIGIDO: buscar o botão corretamente
+        const submitBtn = document.getElementById('btn-criar-grupo');
+        const originalText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Cadastrando...';
+
+        try {
+            console.log('Enviando para API...'); // Debug
+            
+            const response = await fetch('http://127.0.0.1:8000/controlefinanceiro/categorias/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify(dados)
+            });
+
+            console.log('Resposta da API:', response.status); // Debug
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Sucesso:', result); // Debug
+                showAlert('Grupo criado com sucesso', 'success');
+
+                this.reset();
+                
+                // Fecha o modal após sucesso
+                const modal = bootstrap.Modal.getInstance(document.getElementById('btn_cadastro_grupos'));
+                if (modal) modal.hide();
+                
+            } else {
+                const errors = await response.json();
+                console.error('Erro na criação', errors);
+                showAlert('Erro ao cadastrar novo grupo. Verificar os dados.', 'danger');
+            }
+
+        } catch(error) {
+            console.error('Erro na requisição: ', error);
+            showAlert('Erro de conexão com o servidor: ' + error.message, 'danger');
+
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+        }
+    });
+
+    // Função para obter CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+        
+    // CORRIGIDO: Função para mostrar alertas no modal
+    function showAlert(message, type) {
+        // Remove alertas existentes
+        const existingAlerts = document.querySelectorAll('.alert');
+        existingAlerts.forEach(alert => alert.remove());
+            
+        // Cria novo alerta
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+        alertDiv.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+            
+        // CORRIGIDO: Insere o alerta no container correto
+        const alertContainer = document.getElementById('alert-container');
+        alertContainer.appendChild(alertDiv);
+            
+        // Remove automaticamente após 5 segundos
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.remove();
+            }
+        }, 5000);
+    }
+</script>
+{% endblock %}

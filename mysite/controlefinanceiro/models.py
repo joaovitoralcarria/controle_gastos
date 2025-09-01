@@ -18,6 +18,9 @@ class Categoria(models.Model):
     creationDate = models.DateField(auto_now_add=True)
     updatedDate = models.DateField(auto_now=True)
 
+    def __str__(self):
+        return f"{self.nomeGrupo} - {self.nomeCategoria} - {self.nomeDescricao} ({self.tipoTransacao})"   
+
 class Transacao(models.Model):
     idTransacao = models.BigAutoField(primary_key=True)
     valorTransacao = models.DecimalField(max_digits=10, decimal_places=2)
@@ -26,6 +29,9 @@ class Transacao(models.Model):
     idCategoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True)
     dataCriacao = models.DateField(auto_now_add=True)
     dataAtualizacao = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.descricaoTransacao} - R${self.valorTransacao}"
 
 class ContasReceber(models.Model):
     tipos_status = [
@@ -36,10 +42,14 @@ class ContasReceber(models.Model):
     idReceber = models.BigAutoField(primary_key=True)
     idCategoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True)
     valorReceber = models.DecimalField(max_digits=10, decimal_places=2)
-    dataRecebimentoPrevista = models.DateField()
-    dataRecebimentoEfetiva = models.DateField()
+    dataRecebimentoPrevista = models.DateField(null=True, blank=True)
+    dataRecebimentoEfetiva = models.DateField(null=True, blank=True)
     statusRecebimento = models.CharField(max_length=50, choices=tipos_status)
     observacaoRecebimento = models.TextField()
+
+    def __str__(self):
+        categoria = f" [{self.idCategoria}]" if self.idCategoria else ""
+        return f"{self.dataRecebimentoPrevista} - R${self.valorReceber} ({categoria})"
 
 class ContasPagar(models.Model):
     status_pagamentos = [
@@ -50,6 +60,10 @@ class ContasPagar(models.Model):
     idPagamento = models.BigAutoField(primary_key=True)
     idCategoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True)
     valorPagar = models.DecimalField(max_digits=10, decimal_places=2)
-    dataPagamentoPrevisto = models.DateField()
-    dataPagamentoRealizado = models.DateField()
+    dataPagamentoPrevisto = models.DateField(null=True, blank=True)
+    dataPagamentoRealizado = models.DateField(null=True, blank=True)
     statusPagamento = models.CharField(max_length=50, choices=status_pagamentos)
+
+    def __str__(self):
+        categoria = f" [{self.idCategoria}]" if self.idCategoria else ""
+        return f"{self.dataPagamentoPrevisto} - R${self.valorPagar} ({categoria})"
